@@ -1,0 +1,174 @@
+Microsoft Windows [Version 10.0.22621.2283]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\ASUS>mongosh
+Current Mongosh Log ID: 651cde42bd709ef83ff54b51
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.0
+Using MongoDB:          7.0.1
+Using Mongosh:          2.0.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-09-24T19:47:46.858+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use mongo
+switched to db mongo
+mongo> db.createCollection("book")
+{ ok: 1 }
+mongo> db.book.insertMany([
+
+... {title:"Hello",author:"abc",genre:"fiction",price:200,pub_date:"2023-05-21"},
+... {title:"Thought",author:"abc",genre:"nonfiction",price:150,pub_date:"2023-06-01"},
+... {title:"Good",author:"abc",genre:"scifi",price:250,pub_date:"2023-01-13"},
+... {title:"Magic",author:"lmn",genre:"fiction",price:390,pub_date:"2023-02-15"},
+... {title:"Scince",author:"abc",genre:"mystery",price:450,pub_date:"2023-05-28"},
+... {title:"Bad",author:"xyz",genre:"scifi",price:400,pub_date:"2023-09-17"}
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("651ce060bd709ef83ff54b52"),
+    '1': ObjectId("651ce060bd709ef83ff54b53"),
+    '2': ObjectId("651ce060bd709ef83ff54b54"),
+    '3': ObjectId("651ce060bd709ef83ff54b55"),
+    '4': ObjectId("651ce060bd709ef83ff54b56"),
+    '5': ObjectId("651ce060bd709ef83ff54b57")
+  }
+}
+
+mongo> db.book.aggregate([{$group:{_id:"$title",price:{$avg:"$price"}}}])
+[
+  { _id: 'Magic', price: 390 },
+  { _id: 'Thought', price: 150 },
+  { _id: 'Good', price: 250 },
+  { _id: 'Hello', price: 200 },
+  { _id: 'Scince', price: 450 },
+  { _id: 'Bad', price: 400 }
+]
+
+mongo> db.book.aggregate([{$group: { _id:"$genre", count: { $sum: 1}}}])
+[
+  { _id: 'scifi', count: 2 },
+  { _id: 'fiction', count: 2 },
+  { _id: 'nonfiction', count: 1 },
+  { _id: 'mystery', count: 1 }
+]
+mongo> db.book.aggregate([{$group:{_id:"$genre",price:{$max:"$price"}}}])
+[
+  { _id: 'scifi', price: 400 },
+  { _id: 'fiction', price: 390 },
+  { _id: 'nonfiction', price: 150 },
+  { _id: 'mystery', price: 450 }
+]
+
+mongo> db.book.aggregate([{$group: { _id:"$author", count: { $sum: 1}}},{$match:{count:{$gt:3}}}])
+[ { _id: 'abc', count: 4 } ]
+
+mongo> db.book.aggregate([{$sort:{pub_date:-1}}])
+[
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b57"),
+    title: 'Bad',
+    author: 'xyz',
+    genre: 'scifi',
+    price: 400,
+    pub_date: '2023-09-17'
+  },
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b53"),
+    title: 'Thought',
+    author: 'abc',
+    genre: 'nonfiction',
+    price: 150,
+    pub_date: '2023-06-01'
+  },
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b56"),
+    title: 'Scince',
+    author: 'abc',
+    genre: 'mystery',
+    price: 450,
+    pub_date: '2023-05-28'
+  },
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b52"),
+    title: 'Hello',
+    author: 'abc',
+    genre: 'fiction',
+    price: 200,
+    pub_date: '2023-05-21'
+  },
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b55"),
+    title: 'Magic',
+    author: 'lmn',
+    genre: 'fiction',
+    price: 390,
+    pub_date: '2023-02-15'
+  },
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b54"),
+    title: 'Good',
+    author: 'abc',
+    genre: 'scifi',
+    price: 250,
+    pub_date: '2023-01-13'
+  }
+]
+mongo> db.book.aggregate([{$sort:{price:1}}])
+[
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b53"),
+    title: 'Thought',
+    author: 'abc',
+    genre: 'nonfiction',
+    price: 150,
+    pub_date: '2023-06-01'
+  },
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b52"),
+    title: 'Hello',
+    author: 'abc',
+    genre: 'fiction',
+    price: 200,
+    pub_date: '2023-05-21'
+  },
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b54"),
+    title: 'Good',
+    author: 'abc',
+    genre: 'scifi',
+    price: 250,
+    pub_date: '2023-01-13'
+  },
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b55"),
+    title: 'Magic',
+    author: 'lmn',
+    genre: 'fiction',
+    price: 390,
+    pub_date: '2023-02-15'
+  },
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b57"),
+    title: 'Bad',
+    author: 'xyz',
+    genre: 'scifi',
+    price: 400,
+    pub_date: '2023-09-17'
+  },
+  {
+    _id: ObjectId("651ce060bd709ef83ff54b56"),
+    title: 'Scince',
+    author: 'abc',
+    genre: 'mystery',
+    price: 450,
+    pub_date: '2023-05-28'
+  }
+]
+mongo> exit
+
+C:\Users\ASUS>

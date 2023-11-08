@@ -1,0 +1,203 @@
+Enter password: ******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.34 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.01 sec)
+
+mysql> create table BOOK (Book_ISBN int, Title varchar(20) NOT NULL, Publisher_Name varchar(20), Price int default "000", Date_Of_Publication date,Book_Copy int);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table BOOK_AUTHORS (Book_ISBN int, Author_Name varchar(20),Author_City varchar(20));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into BOOK values (321,"Hello","Navneet",300,"2014-01-01",12),
+    -> (453,"Trial","Tata MacGraw Hill",110,"2019-04-23",11),
+    -> (675,"Laptop","Vikas",450,"2015-02-11",14),
+    -> (892,"Computer","Navneet",300,"2016-12-25",5),
+    -> (901,"MySql","Balbharti",880,"2023-05-01",14);
+
+mysql> select * from BOOK;
++-----------+----------+-------------------+-------+---------------------+-----------+
+| Book_ISBN | Title    | Publisher_Name    | Price | Date_Of_Publication | Book_Copy |
++-----------+----------+-------------------+-------+---------------------+-----------+
+|       321 | Hello    | Navneet           |   300 | 2014-01-01          |        12 |
+|       453 | Trial    | Tata MacGraw Hill |   110 | 2019-04-23          |        11 |
+|       675 | Laptop   | Vikas             |   450 | 2015-02-11          |        14 |
+|       892 | Computer | Navneet           |   300 | 2016-12-25          |         5 |
+|       901 | MySql    | Balbharti         |   880 | 2023-05-01          |        14 |
++-----------+----------+-------------------+-------+---------------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into BOOK_AUTHORS values (321, "Korth", "Pune"),
+    ->     (453, "Charles", "USA"),
+    ->     (675, "Jennie", "Delhi"),
+    ->     (453, "Bareys", "Pune"),
+    ->     (901, "Youshin", "Pune");
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from BOOK_AUTHORs;
++-----------+-------------+-------------+
+| Book_ISBN | Author_Name | Author_City |
++-----------+-------------+-------------+
+|       321 | Korth       | Pune        |
+|       453 | Charles     | USA         |
+|       675 | Jennie      | Delhi       |
+|       453 | Bareys      | Pune        |
+|       901 | Youshin     | Pune        |
++-----------+-------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from BOOK, BOOK_AUTHORS where BOOK.Book_ISBN = BOOK_AUTHORS.Book_ISBN and BOOK_AUTHORS.Author_City = "Pune";
++-----------+-------+-------------------+-------+---------------------+-----------+-----------+-------------+-------------+
+| Book_ISBN | Title | Publisher_Name    | Price | Date_Of_Publication | Book_Copy | Book_ISBN | Author_Name | Author_City |
++-----------+-------+-------------------+-------+---------------------+-----------+-----------+-------------+-------------+
+|       321 | Hello | Navneet           |   300 | 2014-01-01          |        12 |       321 | Korth       | Pune        |
+|       453 | Trial | Tata MacGraw Hill |   110 | 2019-04-23          |        11 |       453 | Bareys      | Pune        |
+|       901 | MySql | Balbharti         |   880 | 2023-05-01          |        14 |       901 | Youshin     | Pune        |
++-----------+-------+-------------------+-------+---------------------+-----------+-----------+-------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select Title, Book_Copy  from BOOK where Book_Copy >= 10 and Book_Copy <= 15;
++--------+-----------+
+| Title  | Book_Copy |
++--------+-----------+
+| Hello  |        12 |
+| Trial  |        11 |
+| Laptop |        14 |
+| MySql  |        14 |
++--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> update BOOK set Book_Copy = 10 where Publisher_Name = "Tata MacGraw Hill";
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> select * from BOOK;
++-----------+----------+-------------------+-------+---------------------+-----------+
+| Book_ISBN | Title    | Publisher_Name    | Price | Date_Of_Publication | Book_Copy |
++-----------+----------+-------------------+-------+---------------------+-----------+
+|       321 | Hello    | Navneet           |   300 | 2014-01-01          |        12 |
+|       453 | Trial    | Tata MacGraw Hill |   110 | 2019-04-23          |        10 |
+|       675 | Laptop   | Vikas             |   450 | 2015-02-11          |        14 |
+|       892 | Computer | Navneet           |   300 | 2016-12-25          |         5 |
+|       901 | MySql    | Balbharti         |   880 | 2023-05-01          |        14 |
++-----------+----------+-------------------+-------+---------------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select Publisher_Name from BOOK where Book_Copy = (select max(Book_Copy) from BOOK);
++----------------+
+| Publisher_Name |
++----------------+
+| Vikas          |
+| Balbharti      |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> select Publisher_Name,count(*) from BOOK group by Publisher_Name order by count(*);
++-------------------+----------+
+| Publisher_Name    | count(*) |
++-------------------+----------+
+| Tata MacGraw Hill |        1 |
+| Vikas             |        1 |
+| Balbharti         |        1 |
+| Navneet           |        2 |
++-------------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select Publisher_Name from BOOK,BOOK_AUTHORS where BOOK.Book_ISBN = BOOK_AUTHORS.Book_ISBN and BOOK_AUTHORS.Author_Name LIKE 'K%';
++----------------+
+| Publisher_Name |
++----------------+
+| Navneet        |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select Publisher_Name,Title from BOOK order by Title;
++-------------------+----------+
+| Publisher_Name    | Title    |
++-------------------+----------+
+| Navneet           | Computer |
+| Navneet           | Hello    |
+| Vikas             | Laptop   |
+| Balbharti         | MySql    |
+| Tata MacGraw Hill | Trial    |
++-------------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select count(*) from BOOK where year(Date_Of_Publication) >= 2014 and month(Date_Of_Publication) >= 1 and day(Date_Of_Publication) >= 1;
++----------+
+| count(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> update BOOK set Date_Of_Publication = '2025-05-15' where Book_ISBN = 901;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from BOOK;
++-----------+----------+-------------------+-------+---------------------+-----------+
+| Book_ISBN | Title    | Publisher_Name    | Price | Date_Of_Publication | Book_Copy |
++-----------+----------+-------------------+-------+---------------------+-----------+
+|       321 | Hello    | Navneet           |   300 | 2014-01-01          |        12 |
+|       453 | Trial    | Tata MacGraw Hill |   110 | 2019-04-23          |        10 |
+|       675 | Laptop   | Vikas             |   450 | 2015-02-11          |        14 |
+|       892 | Computer | Navneet           |   300 | 2016-12-25          |         5 |
+|       901 | MySql    | Balbharti         |   880 | 2025-05-15          |        14 |
++-----------+----------+-------------------+-------+---------------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select count(*) from BOOK where Date_Of_Publication >= '2014-01-01' and Date_Of_Publication <= current_date;
++----------+
+| count(*) |
++----------+
+|        4 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> delete from BOOK using BOOK inner join BOOK_AUTHORS on BOOK.Book_ISBN = BOOK_AUTHORS.Book_ISBN and BOOK_AUTHORS.Author_Name = "Korth";
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from BOOK;
++-----------+----------+-------------------+-------+---------------------+-----------+
+| Book_ISBN | Title    | Publisher_Name    | Price | Date_Of_Publication | Book_Copy |
++-----------+----------+-------------------+-------+---------------------+-----------+
+|       453 | Trial    | Tata MacGraw Hill |   110 | 2019-04-23          |        10 |
+|       675 | Laptop   | Vikas             |   450 | 2015-02-11          |        14 |
+|       892 | Computer | Navneet           |   300 | 2016-12-25          |         5 |
+|       901 | MySql    | Balbharti         |   880 | 2025-05-15          |        14 |
++-----------+----------+-------------------+-------+---------------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from BOOK_AUTHORS;
++-----------+-------------+-------------+
+| Book_ISBN | Author_Name | Author_City |
++-----------+-------------+-------------+
+|       321 | Korth       | Pune        |
+|       453 | Charles     | USA         |
+|       675 | Jennie      | Delhi       |
+|       453 | Bareys      | Pune        |
+|       901 | Youshin     | Pune        |
++-----------+-------------+-------------+
+5 rows in set (0.00 sec)

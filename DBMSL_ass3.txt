@@ -1,0 +1,146 @@
+Microsoft Windows [Version 10.0.22621.2134]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\ASUS>mysql -u root -p;
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+
+C:\Users\ASUS>mysql -u root -p
+Enter password: ******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.34 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| ass                |
+| ass1b              |
+| ass3               |
+| ass4               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| practice           |
+| sys                |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> use ass3;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_ass3 |
++----------------+
+| borrower       |
+| fine           |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from borrower;
++---------+----------+-------------+------------+--------+
+| Roll_no | Name     | Dateofissue | NameOfBook | Status |
++---------+----------+-------------+------------+--------+
+|       1 | Amita    | 2023-06-25  | JAVA       | I      |
+|       2 | Sonakshi | 2017-07-10  | JAVA       | I      |
+|       3 | Nira     | 2023-05-22  | JAVA       | I      |
+|       4 | Jagdish  | 2023-06-10  | JAVA       | I      |
+|       5 | Jayshree | 2023-07-05  | JAVA       | I      |
+|       6 | Kiran    | 2023-06-30  | JAVA       | I      |
++---------+----------+-------------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> delete from borrower;
+Query OK, 6 rows affected (0.00 sec)
+
+mysql> select * from borrower;
+Empty set (0.00 sec)
+
+mysql> INSERT INTO borrower values (1, "Amita", "2023-06-25", "JAVA", "I"),
+    -> (2, "Sonakshi", "2017-07-10", "NETWORKING", "I"),
+    -> (3, "Nira", "2023-05-22", "MYSQL", "I"),
+    -> (4, "Jagdish", "2023-06-10", "DBMS", "I"),
+    -> (5, "Jayshree", "2023-07-05", "MYSQL", "I"),
+    -> (6, "Kiran", "2023-06-30", "JAVA", "I");
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from borrower;
++---------+----------+-------------+------------+--------+
+| Roll_no | Name     | Dateofissue | NameOfBook | Status |
++---------+----------+-------------+------------+--------+
+|       1 | Amita    | 2023-06-25  | JAVA       | I      |
+|       2 | Sonakshi | 2017-07-10  | NETWORKING | I      |
+|       3 | Nira     | 2023-05-22  | MYSQL      | I      |
+|       4 | Jagdish  | 2023-06-10  | DBMS       | I      |
+|       5 | Jayshree | 2023-07-05  | MYSQL      | I      |
+|       6 | Kiran    | 2023-06-30  | JAVA       | I      |
++---------+----------+-------------+------------+--------+
+6 rows in set (0.00 sec)
+
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE b1(IN ID int)
+    -> BEGIN
+    -> DECLARE d1 date;
+    -> DECLARE d2 date;
+    -> DECLARE dif int;
+    -> SET d2 = CURDATE();
+    ->
+    -> SELECT Dateofissue into d1 FROM borrower WHERE Roll_no = ID;
+    -> SET dif = DATEDIFF(d1,d2);
+    ->
+    -> IF (dif >= 30) THEN UPDATE borrower SET Status = 'R' WHERE Roll_no = ID;
+    ->
+    -> ELSEIF (dif >= 15) and (dif <= 30) THEN
+    -> UPDATE borrower SET Status = 'R' WHERE Roll_no = ID;
+    ->
+    -> ELSE
+    -> UPDATE borrower SET Status = 'R' WHERE Roll_no = ID;
+    ->
+    -> END IF;
+    -> end
+    -> $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from borrower;
+    -> $$
++---------+----------+-------------+------------+--------+
+| Roll_no | Name     | Dateofissue | NameOfBook | Status |
++---------+----------+-------------+------------+--------+
+|       1 | Amita    | 2023-06-25  | JAVA       | I      |
+|       2 | Sonakshi | 2017-07-10  | NETWORKING | I      |
+|       3 | Nira     | 2023-05-22  | MYSQL      | I      |
+|       4 | Jagdish  | 2023-06-10  | DBMS       | I      |
+|       5 | Jayshree | 2023-07-05  | MYSQL      | I      |
+|       6 | Kiran    | 2023-06-30  | JAVA       | I      |
++---------+----------+-------------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> call b1(2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from borrower;
++---------+----------+-------------+------------+--------+
+| Roll_no | Name     | Dateofissue | NameOfBook | Status |
++---------+----------+-------------+------------+--------+
+|       1 | Amita    | 2023-06-25  | JAVA       | I      |
+|       2 | Sonakshi | 2017-07-10  | NETWORKING | R      |
+|       3 | Nira     | 2023-05-22  | MYSQL      | I      |
+|       4 | Jagdish  | 2023-06-10  | DBMS       | I      |
+|       5 | Jayshree | 2023-07-05  | MYSQL      | I      |
+|       6 | Kiran    | 2023-06-30  | JAVA       | I      |
++---------+----------+-------------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql>

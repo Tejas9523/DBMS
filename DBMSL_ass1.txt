@@ -1,0 +1,495 @@
+ubuntu@ubuntu-OptiPlex-3090:~$ sudo mysql
+[sudo] password for ubuntu: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.33-0ubuntu0.20.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| BMS                |
+| OFC                |
+| ass1               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| shopping           |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use ass1;
+Database changed
+mysql> create table Books(BookID int primary key, Title varchar(20), Author varchar(20), Genre varchar(20), Price int default '00.00', Stock int not null);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into Books values(2011,'HELLO','Abc','Music',200,2), (2123,'THINK','xyz','Art',400,0), (2130,'TRIAL','pqr','Literature',354,3), (2441,'BEST','lmn','Music',101,4), (1136,'COMPUTER','gfg','Code',211,1);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Books;
++--------+----------+--------+------------+-------+-------+
+| BookID | Title    | Author | Genre      | Price | Stock |
++--------+----------+--------+------------+-------+-------+
+|   1136 | COMPUTER | gfg    | Code       |   211 |     1 |
+|   2011 | HELLO    | Abc    | Music      |   200 |     2 |
+|   2123 | THINK    | xyz    | Art        |   400 |     0 |
+|   2130 | TRIAL    | pqr    | Literature |   354 |     3 |
+|   2441 | BEST     | lmn    | Music      |   101 |     4 |
++--------+----------+--------+------------+-------+-------+
+5 rows in set (0.00 sec)
+
+mysql> delete from Books where Stock=0;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Books;
++--------+----------+--------+------------+-------+-------+
+| BookID | Title    | Author | Genre      | Price | Stock |
++--------+----------+--------+------------+-------+-------+
+|   1136 | COMPUTER | gfg    | Code       |   211 |     1 |
+|   2011 | HELLO    | Abc    | Music      |   200 |     2 |
+|   2130 | TRIAL    | pqr    | Literature |   354 |     3 |
+|   2441 | BEST     | lmn    | Music      |   101 |     4 |
++--------+----------+--------+------------+-------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from Books order by Price desc; 
++--------+----------+--------+------------+-------+-------+
+| BookID | Title    | Author | Genre      | Price | Stock |
++--------+----------+--------+------------+-------+-------+
+|   2130 | TRIAL    | pqr    | Literature |   354 |     3 |
+|   1136 | COMPUTER | gfg    | Code       |   211 |     1 |
+|   2011 | HELLO    | Abc    | Music      |   200 |     2 |
+|   2441 | BEST     | lmn    | Music      |   101 |     4 |
++--------+----------+--------+------------+-------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Books values(3421,'History of MH','xyz','History',666,7), (4532,'History of USA','uvw','Art',590,1);
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from Books;
++--------+----------------+--------+------------+-------+-------+
+| BookID | Title          | Author | Genre      | Price | Stock |
++--------+----------------+--------+------------+-------+-------+
+|   1136 | COMPUTER       | gfg    | Code       |   211 |     1 |
+|   2011 | HELLO          | Abc    | Music      |   200 |     2 |
+|   2130 | TRIAL          | pqr    | Literature |   354 |     3 |
+|   2441 | BEST           | lmn    | Music      |   101 |     4 |
+|   3421 | History of MH  | xyz    | History    |   666 |     7 |
+|   4532 | History of USA | uvw    | Art        |   590 |     1 |
++--------+----------------+--------+------------+-------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from Books order by Price desc;
++--------+----------------+--------+------------+-------+-------+
+| BookID | Title          | Author | Genre      | Price | Stock |
++--------+----------------+--------+------------+-------+-------+
+|   3421 | History of MH  | xyz    | History    |   666 |     7 |
+|   4532 | History of USA | uvw    | Art        |   590 |     1 |
+|   2130 | TRIAL          | pqr    | Literature |   354 |     3 |
+|   1136 | COMPUTER       | gfg    | Code       |   211 |     1 |
+|   2011 | HELLO          | Abc    | Music      |   200 |     2 |
+|   2441 | BEST           | lmn    | Music      |   101 |     4 |
++--------+----------------+--------+------------+-------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from Books where Title like '%History%';
++--------+----------------+--------+---------+-------+-------+
+| BookID | Title          | Author | Genre   | Price | Stock |
++--------+----------------+--------+---------+-------+-------+
+|   3421 | History of MH  | xyz    | History |   666 |     7 |
+|   4532 | History of USA | uvw    | Art     |   590 |     1 |
++--------+----------------+--------+---------+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> 
+
+
+****************************************************************************************
+
+
+
+
+
+
+
+
+ubuntu@ubuntu-OptiPlex-3090:~$ sudo mysql
+[sudo] password for ubuntu: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 8.0.33-0ubuntu0.20.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| BMS                |
+| OFC                |
+| ass1               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| shopping           |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use Ass1;
+ERROR 1049 (42000): Unknown database 'Ass1'
+mysql> use ass1
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table Customers (CustomerID int primary key, Name varchar(20), Email varchar(20), Address varchar(20), Phone varchar(10) not null);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show tables
+    -> ;
++----------------+
+| Tables_in_ass1 |
++----------------+
+| Books          |
+| Customers      |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Customers values (121,'abc','abc@gmail.com','Pune',11223344556677), (120,'lmn','lmn@gmail.com','Dighi',5544336677);
+ERROR 1406 (22001): Data too long for column 'Phone' at row 1
+mysql> select * from Customers;
+Empty set (0.00 sec)
+
+mysql> insert into Customers values (121,'abc','abc@gmail.com','Pune',1122334455), (120,'lmn','lmn@gmail.com','Dighi',5544336677);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from Customers;
++------------+------+---------------+---------+------------+
+| CustomerID | Name | Email         | Address | Phone      |
++------------+------+---------------+---------+------------+
+|        120 | lmn  | lmn@gmail.com | Dighi   | 5544336677 |
+|        121 | abc  | abc@gmail.com | Pune    | 1122334455 |
++------------+------+---------------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> update Customers set Address='Lonavla' where CustomerID=120;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Customers;
++------------+------+---------------+---------+------------+
+| CustomerID | Name | Email         | Address | Phone      |
++------------+------+---------------+---------+------------+
+|        120 | lmn  | lmn@gmail.com | Lonavla | 5544336677 |
+|        121 | abc  | abc@gmail.com | Pune    | 1122334455 |
++------------+------+---------------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Customers values (233,'pqr','pqr@gmail.com','Pimpri',NULL);
+ERROR 1048 (23000): Column 'Phone' cannot be null
+mysql> 
+
+
+
+
+***************************************************************************************
+
+
+
+
+
+
+
+
+
+ubuntu@ubuntu-OptiPlex-3090:~$ sudo mysql
+[sudo] password for ubuntu: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 16
+Server version: 8.0.33-0ubuntu0.20.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| BMS                |
+| OFC                |
+| ass1               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| shopping           |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use ass1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table Transactions (TransactionID int primary key, BookID int, CustomerID int, Joining_Date date, Amount int default '0.0');
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> insert into Transactions values (879,901,11101,"2023-07-26",354), (345,702,11102,"2023-07-25",500), (546,301,11101,"2023-07-26",600), (123,502,11104,"2023-07-26",400), (754,404,11101,"2023-07-26",200);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Transactions;
++---------------+--------+------------+--------------+--------+
+| TransactionID | BookID | CustomerID | Joining_Date | Amount |
++---------------+--------+------------+--------------+--------+
+|           123 |    502 |      11104 | 2023-07-26   |    400 |
+|           345 |    702 |      11102 | 2023-07-25   |    500 |
+|           546 |    301 |      11101 | 2023-07-26   |    600 |
+|           754 |    404 |      11101 | 2023-07-26   |    200 |
+|           879 |    901 |      11101 | 2023-07-26   |    354 |
++---------------+--------+------------+--------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select CustomerID, sum(Amount) from Transactions group by CustomerID;
++------------+-------------+
+| CustomerID | sum(Amount) |
++------------+-------------+
+|      11104 |         400 |
+|      11102 |         500 |
+|      11101 |        1154 |
++------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+
+
+
+*******************************************************************************************
+
+
+
+
+
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| tejas              |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use tejas;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table trips(TripID int primary key, TouristName varchar(30), TouristEmail varchar(30), CountryOfOrigin varchar(30),
+DestinationCountry varchar(30), TripStart varchar(30), TripEnd varchar(30), Cost int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc trips;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| TripID             | int         | NO   | PRI | NULL    |       |
+| TouristName        | varchar(30) | YES  |     | NULL    |       |
+| TouristEmail       | varchar(30) | YES  |     | NULL    |       |
+| CountryOfOrigin    | varchar(30) | YES  |     | NULL    |       |
+| DestinationCountry | varchar(30) | YES  |     | NULL    |       |
+| TripStart          | varchar(30) | YES  |     | NULL    |       |
+| TripEnd            | varchar(30) | YES  |     | NULL    |       |
+| Cost               | int         | YES  |     | NULL    |       |
++--------------------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> insert into trips values(1,'stella','stella@gmail.com','usa','france','14-06-2023','26-06-2023',60000);
+Query OK, 1 row affected (0.00 sec)
+
+
+mysql> insert into trips values(2,'john','john@gmail.com','usa','germany','05-07-2023','16-07-2023',20000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into trips values(3,'bella','bella@gmail.com','italy','spain','05-07-2023','16-07-2023',1500);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> update trips set Cost=1200 where TripID=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> insert into trips values(4,'ameya','ameya@gmail.com','India','france','03-07-2023','13-07-2023',3500);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into trips values(5,'arya','arya@gmail.com','India','Australia','09-09-2023','23-09-2023',400);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into trips values(6,'gray','gray@gmail.com','USA','Finland','17-09-2023','28-09-2023',9000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into trips values(7,'ross','ross@gmail.com','Italy','Iceland','29-09-2023','03-10-2023',7800);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into trips values(8,'monica','monica@gmail.com','Italy','Germany','15-10-2023','23-10-2023',200);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into trips values(9,'joey','joey@gmail.com','France','Switzerland','05-11-2023','17-11-2023',8000);
+Query OK, 1 row affected (0.00 sec)
+
+
+mysql> select * from trips;
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+| TripID | TouristName | TouristEmail     | CountryOfOrigin | DestinationCountry | TripStart  | TripEnd    | Cost  |
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+|      1 | stella      | stella@gmail.com | usa             | france             | 14-06-2023 | 26-06-2023 |  1200 |
+|      2 | john        | john@gmail.com   | usa             | germany            | 05-07-2023 | 16-07-2023 | 20000 |
+|      3 | bella       | bella@gmail.com  | italy           | spain              | 05-07-2023 | 16-07-2023 |  1500 |
+|      4 | ameya       | ameya@gmail.com  | India           | france             | 03-07-2023 | 13-07-2023 |  3500 |
+|      5 | arya        | arya@gmail.com   | India           | Australia          | 09-09-2023 | 23-09-2023 |   400 |
+|      6 | gray        | gray@gmail.com   | USA             | Finland            | 17-09-2023 | 28-09-2023 |  9000 |
+|      7 | ross        | ross@gmail.com   | Italy           | Iceland            | 29-09-2023 | 03-10-2023 |  7800 |
+|      8 | monica      | monica@gmail.com | Italy           | Germany            | 15-10-2023 | 23-10-2023 |   200 |
+|      9 | joey        | joey@gmail.com   | France          | Switzerland        | 05-11-2023 | 17-11-2023 |  8000 |
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+9 rows in set (0.00 sec)
+
+
+mysql> delete from trips where cost<500;
+Query OK, 2 rows affected (0.00 sec)
+
+mysql> select * from trips;
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+| TripID | TouristName | TouristEmail     | CountryOfOrigin | DestinationCountry | TripStart  | TripEnd    | Cost  |
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+|      1 | stella      | stella@gmail.com | usa             | france             | 14-06-2023 | 26-06-2023 |  1200 |
+|      2 | john        | john@gmail.com   | usa             | germany            | 05-07-2023 | 16-07-2023 | 20000 |
+|      3 | bella       | bella@gmail.com  | italy           | spain              | 05-07-2023 | 16-07-2023 |  1500 |
+|      4 | ameya       | ameya@gmail.com  | India           | france             | 03-07-2023 | 13-07-2023 |  3500 |
+|      6 | gray        | gray@gmail.com   | USA             | Finland            | 17-09-2023 | 28-09-2023 |  9000 |
+|      7 | ross        | ross@gmail.com   | Italy           | Iceland            | 29-09-2023 | 03-10-2023 |  7800 |
+|      9 | joey        | joey@gmail.com   | France          | Switzerland        | 05-11-2023 | 17-11-2023 |  8000 |
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+7 rows in set (0.00 sec)
+
+mysql> update trips set TouristEmail='ciao@gmail.com' where TouristEmail='bella@gmail.com';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from trips;
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+| TripID | TouristName | TouristEmail     | CountryOfOrigin | DestinationCountry | TripStart  | TripEnd    | Cost  |
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+|      1 | stella      | stella@gmail.com | usa             | france             | 14-06-2023 | 26-06-2023 |  1200 |
+|      2 | john        | john@gmail.com   | usa             | germany            | 05-07-2023 | 16-07-2023 | 20000 |
+|      3 | bella       | ciao@gmail.com   | italy           | spain              | 05-07-2023 | 16-07-2023 |  1500 |
+|      4 | ameya       | ameya@gmail.com  | India           | france             | 03-07-2023 | 13-07-2023 |  3500 |
+|      6 | gray        | gray@gmail.com   | USA             | Finland            | 17-09-2023 | 28-09-2023 |  9000 |
+|      7 | ross        | ross@gmail.com   | Italy           | Iceland            | 29-09-2023 | 03-10-2023 |  7800 |
+|      9 | joey        | joey@gmail.com   | France          | Switzerland        | 05-11-2023 | 17-11-2023 |  8000 |
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+7 rows in set (0.00 sec)
+mysql> select * from trips
+    -> order by Cost desc;
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+| TripID | TouristName | TouristEmail     | CountryOfOrigin | DestinationCountry | TripStart  | TripEnd    | Cost  |
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+|      2 | john        | john@gmail.com   | usa             | germany            | 05-07-2023 | 16-07-2023 | 20000 |
+|      6 | gray        | gray@gmail.com   | USA             | Finland            | 17-09-2023 | 28-09-2023 |  9000 |
+|      9 | joey        | joey@gmail.com   | France          | Switzerland        | 05-11-2023 | 17-11-2023 |  8000 |
+|      7 | ross        | ross@gmail.com   | Italy           | Iceland            | 29-09-2023 | 03-10-2023 |  7800 |
+|      4 | ameya       | ameya@gmail.com  | India           | france             | 03-07-2023 | 13-07-2023 |  3500 |
+|      3 | bella       | ciao@gmail.com   | italy           | spain              | 05-07-2023 | 16-07-2023 |  1500 |
+|      1 | stella      | stella@gmail.com | usa             | france             | 14-06-2023 | 26-06-2023 |  1200 |
++--------+-------------+------------------+-----------------+--------------------+------------+------------+-------+
+7 rows in set (0.00 sec)
+mysql> select * from trips where (Cost>1000 and Cost<200) and (DestinationCountry='France' or DestinationCountry='Spain');
+Empty set (0.00 sec)
+
+mysql> select * from trips where (Cost>1000 and Cost<2000) and (DestinationCountry='France' or DestinationCountry='Spain');
++--------+-------------+------------------+-----------------+--------------------+------------+------------+------+
+| TripID | TouristName | TouristEmail     | CountryOfOrigin | DestinationCountry | TripStart  | TripEnd    | Cost |
++--------+-------------+------------------+-----------------+--------------------+------------+------------+------+
+|      1 | stella      | stella@gmail.com | usa             | france             | 14-06-2023 | 26-06-2023 | 1200 |
+|      3 | bella       | ciao@gmail.com   | italy           | spain              | 05-07-2023 | 16-07-2023 | 1500 |
++--------+-------------+------------------+-----------------+--------------------+------------+------------+------+
+2 rows in set (0.00 sec)
+
+mysql> select count(TripID),TouristName,sum(Cost) from trips group by TouristNam
+e order by sum(Cost) desc;
++---------------+-------------+-----------+
+| count(TripID) | TouristName | sum(Cost) |
++---------------+-------------+-----------+
+|             1 | john        |     20000 |
+|             2 | joey        |     10000 |
+|             1 | gray        |      9000 |
+|             2 | ross        |      9000 |
+|             1 | ameya       |      3500 |
+|             1 | bella       |      1500 |
+|             1 | stella      |      1200 |
++---------------+-------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from trips where DestinationCountry like '%land%';
++--------+-------------+----------------+-----------------+--------------------+------------+------------+------+
+| TripID | TouristName | TouristEmail   | CountryOfOrigin | DestinationCountry | TripStart  | TripEnd    | Cost |
++--------+-------------+----------------+-----------------+--------------------+------------+------------+------+
+|      5 | joey        | joey@gmail.com | France          | Thailand           | 05-11-2023 | 17-11-2023 | 2000 |
+|      6 | gray        | gray@gmail.com | USA             | Finland            | 17-09-2023 | 28-09-2023 | 9000 |
+|      7 | ross        | ross@gmail.com | Italy           | Iceland            | 29-09-2023 | 03-10-2023 | 7800 |
+|      9 | joey        | joey@gmail.com | France          | Switzerland        | 05-11-2023 | 17-11-2023 | 8000 |
++--------+-------------+----------------+-----------------+--------------------+------------+------------+------+
+4 rows in set (0.00 sec)
+
+mysql> alter table trips
+    -> modify CountryOfOrigin varchar(30) NOT NULL;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC trips;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| TripID             | int         | NO   | PRI | NULL    |       |
+| TouristName        | varchar(30) | YES  |     | NULL    |       |
+| TouristEmail       | varchar(30) | YES  |     | NULL    |       |
+| CountryOfOrigin    | varchar(30) | NO   |     | NULL    |       |
+| DestinationCountry | varchar(30) | YES  |     | NULL    |       |
+| TripStart          | varchar(30) | YES  |     | NULL    |       |
+| TripEnd            | varchar(30) | YES  |     | NULL    |       |
+| Cost               | int         | YES  |     | NULL    |       |
++--------------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+mysql> insert into trips values(10,'cassie','cassie@gmail.com',NULL,'USA','05-12-2023','15-12-2023',9200);
+ERROR 1048 (23000): Column 'CountryOfOrigin' cannot be null
+
+mysql> QUIT
+Bye
+

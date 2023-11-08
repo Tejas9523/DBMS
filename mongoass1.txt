@@ -1,0 +1,539 @@
+Microsoft Windows [Version 10.0.22621.2283]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\ASUS>mongosh
+Current Mongosh Log ID: 6513a4db014567805eb59974
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.0
+Using MongoDB:          7.0.1
+Using Mongosh:          2.0.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-09-24T19:47:46.858+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin   40.00 KiB
+config  12.00 KiB
+local   72.00 KiB
+test> use ass1
+switched to db ass1
+ass1> db.createCollection("Teachers")
+{ ok: 1 }
+ass1> db.ass1.insertMany([
+... {Tname:"abc",
+... dno:121,
+... dname:"AI&DS",
+... experience:3,
+... salary:20000,
+... date_of_joining:Date()
+... },
+... {Tname:"praveen",
+... dno:122,
+... dname:"CS",
+... experience:3,
+... salary:40000,
+... date_of_joining:"2014-05-21"
+... },
+... {Tname:"def",
+... dno:123,
+... dname:"IT",
+... experiencsalary:15000,
+... date_of_joining:"2019-01-01"
+... },
+... {Tname:"ghi",
+... dno:124,
+... dname:"E&TC",
+... experience:6,
+... salary:25000,
+... date_of_joining:Date()
+... },
+... {Tname:"lmn",
+... dno:125,
+... dname:"IT",
+... experience:2,
+... salary:20000,
+... date_of_joining:"2015-02-22"
+... },])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("6513a7d6014567805eb59975"),
+    '1': ObjectId("6513a7d6014567805eb59976"),
+    '2': ObjectId("6513a7d6014567805eb59977"),
+    '3': ObjectId("6513a7d6014567805eb59978"),
+    '4': ObjectId("6513a7d6014567805eb59979")
+  }
+}
+ass1> db.ass1.find()
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59975"),
+    Tname: 'abc',
+    dno: 121,
+    dname: 'AI&DS',
+    experience: 3,
+    salary: 20000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    dno: 122,
+    dname: 'CS',
+    experience: 3,
+    salary: 40000,
+    date_of_joining: '2014-05-21'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59977"),
+    Tname: 'def',
+    dno: 123,
+    dname: 'IT',
+    experiencsalary: 15000,
+    date_of_joining: '2019-01-01'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59978"),
+    Tname: 'ghi',
+    dno: 124,
+    dname: 'E&TC',
+    experience: 6,
+    salary: 25000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59979"),
+    Tname: 'lmn',
+    dno: 125,
+    dname: 'IT',
+    experience: 2,
+    salary: 20000,
+    date_of_joining: '2015-02-22'
+  }
+]
+ass1> db.ass1.find({dname: "CS"})
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    dno: 122,
+    dname: 'CS',
+    experience: 3,
+    salary: 40000,
+    date_of_joining: '2014-05-21'
+  }
+]
+
+ass1> db.ass1.find({dname:{$in: ["CS","IT","E&TC"]}})
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    dno: 122,
+    dname: 'CS',
+    experience: 3,
+    salary: 40000,
+    date_of_joining: '2014-05-21'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59977"),
+    Tname: 'def',
+    dno: 123,
+    dname: 'IT',
+    experiencsalary: 15000,
+    date_of_joining: '2019-01-01'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59978"),
+    Tname: 'ghi',
+    dno: 124,
+    dname: 'E&TC',
+    experience: 6,
+    salary: 25000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59979"),
+    Tname: 'lmn',
+    dno: 125,
+    dname: 'IT',
+    experience: 2,
+    salary: 20000,
+    date_of_joining: '2015-02-22'
+  }
+]
+ass1> db.ass1.find({dname:{$in: ["CS","IT","E&TC"]}},{salary:{$gte:[10000,10000]}})
+[
+  { _id: ObjectId("6513a7d6014567805eb59976"), salary: true },
+  { _id: ObjectId("6513a7d6014567805eb59977"), salary: true },
+  { _id: ObjectId("6513a7d6014567805eb59978"), salary: true },
+  { _id: ObjectId("6513a7d6014567805eb59979"), salary: true }
+]
+ass1> db.ass1.find({dname:{$in: ["CS","IT","E&TC"]}},{salary:{$gte:[10000,10000]}}).pretty()
+[
+  { _id: ObjectId("6513a7d6014567805eb59976"), salary: true },
+  { _id: ObjectId("6513a7d6014567805eb59977"), salary: true },
+  { _id: ObjectId("6513a7d6014567805eb59978"), salary: true },
+  { _id: ObjectId("6513a7d6014567805eb59979"), salary: true }
+]
+ass1> db.ass1.find({dname:{$in: ["CS","IT","E&TC"]}}).pretty()
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    dno: 122,
+    dname: 'CS',
+    experience: 3,
+    salary: 40000,
+    date_of_joining: '2014-05-21'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59977"),
+    Tname: 'def',
+    dno: 123,
+    dname: 'IT',
+    experiencsalary: 15000,
+    date_of_joining: '2019-01-01'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59978"),
+    Tname: 'ghi',
+    dno: 124,
+    dname: 'E&TC',
+    experience: 6,
+    salary: 25000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59979"),
+    Tname: 'lmn',
+    dno: 125,
+    dname: 'IT',
+    experience: 2,
+    salary: 20000,
+    date_of_joining: '2015-02-22'
+  }
+]
+ass1> db.ass1.find({dname:{$in: ["CS","IT","E&TC"]},salary:{$gte:10000}})
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    dno: 122,
+    dname: 'CS',
+    experience: 3,
+    salary: 40000,
+    date_of_joining: '2014-05-21'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59978"),
+    Tname: 'ghi',
+    dno: 124,
+    dname: 'E&TC',
+    experience: 6,
+    salary: 25000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59979"),
+    Tname: 'lmn',
+    dno: 125,
+    dname: 'IT',
+    experience: 2,
+    salary: 20000,
+    date_of_joining: '2015-02-22'
+  }
+]
+ass1> db.ass1.Students.insertMany([
+... {sname:"xyz",
+... roll_no:2,
+... class:"B"
+... },
+... {sname:"abc",
+... roll_no:1,
+... class:"A"
+... }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("6513b2fb014567805eb5997a"),
+    '1': ObjectId("6513b2fb014567805eb5997b")
+  }
+}
+ass1> db.ass1.Students.find({roll_no:{$eq:2},sname:{$eq:"xyz"}})
+[
+  {
+    _id: ObjectId("6513b2fb014567805eb5997a"),
+    sname: 'xyz',
+    roll_no: 2,
+    class: 'B'
+  }
+]
+ass1> db.ass1.find()
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59975"),
+    Tname: 'abc',
+    dno: 121,
+    dname: 'AI&DS',
+    experience: 3,
+    salary: 20000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    dno: 122,
+    dname: 'CS',
+    experience: 3,
+    salary: 40000,
+    date_of_joining: '2014-05-21'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59977"),
+    Tname: 'def',
+    dno: 123,
+    dname: 'IT',
+    experiencsalary: 15000,
+    date_of_joining: '2019-01-01'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59978"),
+    Tname: 'ghi',
+    dno: 124,
+    dname: 'E&TC',
+    experience: 6,
+    salary: 25000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59979"),
+    Tname: 'lmn',
+    dno: 125,
+    dname: 'IT',
+    experience: 2,
+    salary: 20000,
+    date_of_joining: '2015-02-22'
+  }
+]
+ass1> db.ass1.updateOne({Tname:"praveen"},{$set:{experince:10}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+ass1> db.ass1.find()
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59975"),
+    Tname: 'abc',
+    dno: 121,
+    dname: 'AI&DS',
+    experience: 3,
+    salary: 20000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    dno: 122,
+    dname: 'CS',
+    experience: 3,
+    salary: 40000,
+    date_of_joining: '2014-05-21',
+    experince: 10
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59977"),
+    Tname: 'def',
+    dno: 123,
+    dname: 'IT',
+    experiencsalary: 15000,
+    date_of_joining: '2019-01-01'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59978"),
+    Tname: 'ghi',
+    dno: 124,
+    dname: 'E&TC',
+    experience: 6,
+    salary: 25000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59979"),
+    Tname: 'lmn',
+    dno: 125,
+    dname: 'IT',
+    experience: 2,
+    salary: 20000,
+    date_of_joining: '2015-02-22'
+  }
+]
+ass1> db.ass1.updateOne({Tname:"praveen"},{$set:{experience:10}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+ass1> db.ass1.find()
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59975"),
+    Tname: 'abc',
+    dno: 121,
+    dname: 'AI&DS',
+    experience: 3,
+    salary: 20000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    dno: 122,
+    dname: 'CS',
+    experience: 10,
+    salary: 40000,
+    date_of_joining: '2014-05-21',
+    experince: 10
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59977"),
+    Tname: 'def',
+    dno: 123,
+    dname: 'IT',
+    experiencsalary: 15000,
+    date_of_joining: '2019-01-01'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59978"),
+    Tname: 'ghi',
+    dno: 124,
+    dname: 'E&TC',
+    experience: 6,
+    salary: 25000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59979"),
+    Tname: 'lmn',
+    dno: 125,
+    dname: 'IT',
+    experience: 2,
+    salary: 20000,
+    date_of_joining: '2015-02-22'
+  }
+]
+ass1> db.ass1.update({dname:"IT"},{$set:{dename:"COMP"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+ass1> db.ass1.find()
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59975"),
+    Tname: 'abc',
+    dno: 121,
+    dname: 'AI&DS',
+    experience: 3,
+    salary: 20000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    dno: 122,
+    dname: 'CS',
+    experience: 10,
+    salary: 40000,
+    date_of_joining: '2014-05-21',
+    experince: 10
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59977"),
+    Tname: 'def',
+    dno: 123,
+    dname: 'IT',
+    experiencsalary: 15000,
+    date_of_joining: '2019-01-01',
+    dename: 'COMP'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59978"),
+    Tname: 'ghi',
+    dno: 124,
+    dname: 'E&TC',
+    experience: 6,
+    salary: 25000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59979"),
+    Tname: 'lmn',
+    dno: 125,
+    dname: 'IT',
+    experience: 2,
+    salary: 20000,
+    date_of_joining: '2015-02-22'
+  }
+]
+ass1> db.ass1.find({},{Tname:1,experience:1})
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59975"),
+    Tname: 'abc',
+    experience: 3
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    experience: 10
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59978"),
+    Tname: 'ghi',
+    experience: 6
+  }
+]
+ass1> db.ass1.find().sort({Tname:1}).pretty().limit(3)
+[
+  {
+    _id: ObjectId("6513a7d6014567805eb59975"),
+    Tname: 'abc',
+    dno: 121,
+    dname: 'AI&DS',
+    experience: 3,
+    salary: 20000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59978"),
+    Tname: 'ghi',
+    dno: 124,
+    dname: 'E&TC',
+    experience: 6,
+    salary: 25000,
+    date_of_joining: 'Wed Sep 27 2023 09:26:06 GMT+0530 (India Standard Time)'
+  },
+  {
+    _id: ObjectId("6513a7d6014567805eb59976"),
+    Tname: 'praveen',
+    dno: 122,
+    dname: 'CS',
+    experience: 10,
+    salary: 40000,
+    date_of_joining: '2014-05-21',
+    experince: 10
+  }
+]

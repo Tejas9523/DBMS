@@ -1,0 +1,48 @@
+
+CREATE TABLE branch(branch_name VARCHAR(20) PRIMARY KEY,branch_city VARCHAR(10),assets_amt INT);
+
+CREATE TABLE Account(Acc_no INT PRIMARY KEY, branch_name VARCHAR(20),balance INT, CHECK (balance > 0),FOREIGN KEY (branch_name) REFERENCES BRANCH(BRANCH_NAME));
+
+CREATE TABLE customer(cust_name VARCHAR(20),cust_street VARCHAR(10),cust_city VARCHAR(10));
+
+CREATE TABLE Depositor(cust_name VARCHAR(10),acc_no INT);
+
+CREATE TABLE Loan(Acc_no INT,loan_no INT,branch_name VARCHAR(10),amount INT DEFAULT 00);
+
+CREATE TABLE Borrower(cust_name VARCHAR(10),loan_no INT);
+
+INSERT INTO Account VALUES(1234,"pimpri",13425),(2345,"akurdi",10000),(3456,"pune",13000),(4567,"nasik",14065);
+
+INSERT INTO branch VALUES("pimpri","pune",45000),("akurdi","pimpri",23000),("pune","pune",43000),("nasik","nasik",24500);
+
+INSERT INTO customer VALUES("abc","digi","pune"),("xyz","chawl","nasik"),("lmn","wai","satara"),("pqr","pune","pune");
+
+INSERT INTO Depositor VALUES("abc",1234),("lmn",2345),("pqr",3456),("xyz",4567);
+
+INSERT INTO Loan VALUES(1234,11,"pimpri",12128),(2345,12,"akurdi",13028),(3456,33,"akurdi",3455),(4567,43,"akurdi",2000);
+
+INSERT INTO Borrower VALUES("abc",12),("lmn",33);
+
+SELECT branch_name from Loan GROUP BY branch_name;
+
+SELECT loan_no,amount,branch_name from Loan WHERE branch_name = "pimpri" and amount > 12000;
+
+SELECT cust_name,loan_no,amount from Depositor INNER JOIN Loan on Depositor.acc_no = Loan.Acc_no;
+
+SELECT cust_name,branch_name,amount from Depositor INNER JOIN Loan on Depositor.acc_no = Loan.Acc_no WHERE branch_name = "akurdi" ORDER BY cust_name;
+
+SELECT * from Depositor,Loan;
+
+SELECT * from Depositor INNER JOIN Loan ON Depositor.acc_no = Loan.Acc_no;
+
+SELECT AVG(balance) from Account WHERE branch_name="pimpri";
+
+SELECT branch_name,AVG(balance) from Account GROUP BY branch_name;
+
+SELECT branch_name,COUNT(*) from Depositor INNER JOIN Account ON Account.Acc_no = Depositor.acc_no GROUP BY branch_name;
+
+SELECT branch_name,balance from Account WHERE balance>12000;
+
+SELECT SUM(amount) from Loan;
+
+SELECT COUNT(*) from customer;

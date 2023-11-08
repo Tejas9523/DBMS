@@ -1,0 +1,15 @@
+db.book.mapReduce(
+function() { emit(this.title,1); },
+function(key, values) {return Array.sum(values)},
+{
+out:'book';
+}
+)
+
+db.book.find()
+[
+  { _id: 'Hello', value: 1 },
+  { _id: 'Thought', value: 1 },
+  { _id: 'Scince', value: 1 },
+  { _id: 'Good', value: 1 }
+]
